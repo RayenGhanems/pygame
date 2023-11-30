@@ -1,0 +1,70 @@
+import pygame				
+from sys import exit        							to use exit in the while True loop
+
+
+pygame.init()   								just to initialize
+screen = pygame.display.set_mode((width,hight)) 				for the window displayed on the screen 
+pygame.display.set_caption('runner')    					here just write the name of the game instead of pygame above
+clock = pygame.time.Clock()							initialize the the clock for the frame per second
+
+test_surface = pygame.Surface((100,200))					these two lines are to create a small surface on top of the background so that we could have our player or ball or what ever and the  
+test_surface.fill('Red')	 						fill comand can be filled with the rgb collors or by this way we dont usually use this but instead the upoaded pic 
+
+												
+Color(R,G,B)									For colors we can use the rgb and pass in the array of 3 ints 
+											
+
+sky_pic = pygame.image.load("corectory/Name.jpg").convert_alpha()  		here we always asume that the graphics file is locate near the code so it is easyer + make sure to resize the pic on google so that you have the perfect size 										WRT the set mode((800,400)) in this case
+
+snail_surf = pygame.image.load('graphics/snail/snail1.png').convert_alpha()   	as for the characters it is always a better idea too use a rectangel to put them in side with the get rect dont forget that a rectangle has center midbottom 
+snail_rect = snail_surf.get_rect(midbottom = (600,306))				leftbottom and all the other particular point of a usual rect so that it is easier to place
+
+text_font = pygame.font.Font('font/Pixeltype.ttf', 50)   			to add any kinf of text i need to do it this way with (1,2) 1 is the font type (can use None so the pygame's default) and 2 is the size
+score_surf = text_font.render('score', False, 'Black')  			1) what i need to write   2) is if i want it smooth or not in gerneral working with pixal keep it false   3) color
+score_rect = score_surf.get_rect(center = (400,50))
+
+
+while True:								##### MOST IMPORTANT #####
+
+    for event in pygame.event.get():						this event contains every new update for the game 
+        if event.type == pygame.QUIT:     					without this if statment we would not be able to quit the game so always include it
+            pygame.quit()
+            exit()
+
+        if event.type == pygame.MOUSEMOTION:					gets the x y of the mouse we also have ###pygame.MOUSEBOTTONDOWN### gives T if we are clicking F otherwise and ###pygame.MOUSEBOTTONUP### only true when 										releasing the botton 
+            if player_rect.collidepoint(event.pos):    				here we are checking if the event.pos position of the mouse is in collision with thhe palyer rect simple
+                print("collition")
+
+	if event.type == pygame.KEYDOWN:
+		if event.key== pygame.K_SPACE:					so that how we usually do it and how to check if the 
+			do...
+
+
+    keys = pygame.key.get_pressed()						this is how we get the keyboard input it is either that or in the event statment but we useually do this in the evnt since we would have more controll
+    if keys[pygame.K_SPACE]:
+        print ('jump')
+
+
+
+    screen.blit(sky_pic,(0,0)) 							the blit function is to put a picture or surface on top of the background keep in mind the point (0,0) is on the top left ## BUTT ## as we go down we                              
+    										increase the Y   
+    screen.blit(score_surf,score_rect)						and this is how we usually write it "using a rect"
+  
+
+    pygame.draw.rect(screen, 'Pink', score_rect,6)      			so drawing a rectangle inside of socre rect with the color 'color' af a width of 6 eithout this 4th argument all the rect would be colored "color" 5th 											argument is the boarder rounding can try it with 2o for ex
+
+    pygame.draw.line(screen,"Green",(0,0),(800,400),10)				this is to draw a line
+    pygame.draw.line(screen,"Green",(0,0),pygame.mouse.get_pos(),10)		in here for ex we are making a line from the 00 to the location of the mouse so ###pygame.mouse.get_pos() is the way to get the mouse pos always
+
+    pygame.draw.ellipse(screen, 'Color',pygame.Rect(left, top, width, height))	and this is how you create an ellipe enclosed by the rect
+
+    snail_rect.x -= 4      							make the snail move hence the if statment   we are usiing the rectangle so that we can keep track of it
+    if snail_rect.x < -100:           
+        snail_rect.x=800
+        
+        
+    print(player_rect.colliderect(snail_rect))     				this here is a function used to see if there is a collition btween the two rectangles 0 if Faulse 1 if True
+    
+    
+    pygame.display.update() 							so that the game updates per frame
+    clock.tick(60)  								the frame per second
