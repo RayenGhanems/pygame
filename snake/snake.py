@@ -86,18 +86,6 @@ class SnakeGame:
             y -= BLOCK_SIZE
         self.head = Point(x, y)
 
-    def capture_screen(self):
-        # Capture the screen within the specified region
-        screenshot = ImageGrab.grab(bbox=self.capture_area)
-        # Convert the image to grayscale
-        grayscale_image = screenshot.convert('L')
-        # Convert grayscale image to NumPy array
-        img_array = np.array(grayscale_image)
-        # Define a threshold (adjust as needed)
-        threshold = 128
-        # Create the grid
-        grid = (img_array > threshold).astype(int)
-        return grid
 
     def play_step(self):
         # 1. Collect user input
@@ -121,10 +109,6 @@ class SnakeGame:
 
         # 3. Check if the game is over
         game_over = self._is_collision()
-
-        # 4. Capture screen and create grid
-        grid = self.capture_screen()
-        print(grid)
         
         # 5. Place new food or just move
         if self.head == self.food:
